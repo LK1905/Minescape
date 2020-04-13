@@ -1,6 +1,5 @@
 package com.iandavis.minescape.gui;
 
-import com.iandavis.minescape.MinescapeMain;
 import com.iandavis.minescape.api.utils.Color;
 import com.iandavis.minescape.api.utils.Constants;
 import com.iandavis.minescape.api.utils.Position;

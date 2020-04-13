@@ -9,9 +9,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class RareDropTableHandler implements IMessageHandler<RareDropTableMessage, IMessage> {
     private static RareDropToast currentToastGui = null;
 

@@ -1,6 +1,5 @@
 package com.iandavis.minescape.skills.capes;
 
-import com.iandavis.minescape.MinescapeMain;
 import com.iandavis.minescape.api.capability.ISkillContainer;
 import com.iandavis.minescape.api.skills.ISkill;
 import com.iandavis.minescape.api.skills.capes.SkillCapeBauble;

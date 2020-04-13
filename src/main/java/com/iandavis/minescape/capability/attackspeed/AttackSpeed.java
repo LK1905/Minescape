@@ -1,6 +1,5 @@
 package com.iandavis.minescape.capability.attackspeed;
 
-import com.iandavis.minescape.MinescapeMain;
 import com.iandavis.minescape.api.capability.IAttackSpeed;
 import com.iandavis.minescape.api.utils.Constants;
 import io.netty.buffer.ByteBuf;
