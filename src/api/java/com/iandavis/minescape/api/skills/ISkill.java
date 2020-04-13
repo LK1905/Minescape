@@ -42,7 +42,8 @@ public interface ISkill {
      */
     int getLevel();
 
-
+    int getMaxXP();
+    
     int getMaxLevel();
 
 

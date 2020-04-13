@@ -14,17 +14,19 @@ import net.minecraftforge.common.MinecraftForge;
 public abstract class BasicSkill implements ISkill {
     protected int currentXP;
 
+    //The calculation for these numbers = Math.floor((getLevel() + 300 * (2 ^ (getLevel() / 7)))/4).
+    //Had no idea how to implement it though, so I just hardcoded the numbers into the existing array.
     protected static int[] xpLevels = new int[]{
-            0, 50, 101, 203, 356, 561, 818, 1127, 1487, 1900, 2365,
-            2883, 3454, 4078, 4756, 5487, 6273, 7114, 8010, 8961, 9969,
-            11033, 12154, 13333, 14571, 15868, 17225, 18644, 20124, 21667, 23274,
-            24946, 26685, 28491, 30367, 32313, 34332, 36425, 38594, 40842, 43170,
-            45581, 48078, 50663, 53339, 56110, 58978, 61949, 65025, 68211, 71512,
-            74932, 78477, 82152, 85963, 89917, 94022, 98283, 102710, 107311, 112094,
-            117071, 122251, 127646, 133268, 139130, 145245, 151630, 158298, 165268, 172558,
-            180187, 188177, 196549, 205327, 214537, 224207, 234366, 245044, 256276, 268098,
-            280547, 293665, 307496, 322086, 337485, 353748, 370931, 389095, 408306, 428634,
-            450153, 472943, 497090, 522685, 549824, 578613, 609161, 641588, 676020
+            0, 83, 174, 276, 388, 512, 650, 801, 969, 1154,
+            1358, 1584, 1833, 2107, 2411, 2746, 3115, 3523, 3973, 4470,
+            5018, 5624, 6291, 7028, 7842, 8740, 9730, 10824, 12031, 13363,
+            14833, 16456, 18247, 20224, 22406, 24815, 27473, 30408, 33648, 37224,
+            41171, 45529, 50339, 55649, 61512, 67983, 75127, 83014, 91721, 101333,
+            111945, 123660, 136594, 150872, 166636, 184040, 203254, 224466, 247886, 273742,
+            302288, 333804, 368599, 407015, 449428, 496254, 547953, 605032, 668051, 737627,
+            814445, 899257, 992895, 1096278, 1210421, 1336443, 1475581, 1629200, 1798808, 1986068,
+            2192818, 2421087, 2673114, 2951373, 3258594, 3597792, 3972294, 4385776, 4842295, 5346332,
+            5902831, 6517253, 7195629, 7944614, 8771558, 9684577, 10692629, 11805606, 13034431
     };
 
     public BasicSkill() {
@@ -38,8 +40,10 @@ public abstract class BasicSkill implements ISkill {
 
         this.currentXP += amount;
 
-        XPGainEvent xpEvent = new XPGainEvent(this, player, amount);
-        MinecraftForge.EVENT_BUS.post(xpEvent);
+        if (amount < getMaxXP()) {
+        	XPGainEvent xpEvent = new XPGainEvent(this, player, amount);
+        	MinecraftForge.EVENT_BUS.post(xpEvent);
+        }
 
         if (amount >= xpToNext && currentLevel < getMaxLevel()) {
             LevelUpEvent levelEvent = new LevelUpEvent(this, player);
@@ -94,6 +98,11 @@ public abstract class BasicSkill implements ISkill {
         return 0;
     }
 
+    @Override
+    public int getMaxXP() {
+    	return 200000000;
+    }
+    
     @Override
     public int getMaxLevel() {
         return 99;
