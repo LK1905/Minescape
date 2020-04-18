@@ -2,6 +2,8 @@ package com.iandavis.minescape.api.skills;
 
 import com.iandavis.minescape.api.events.LevelUpEvent;
 import com.iandavis.minescape.api.events.XPGainEvent;
+import com.iandavis.minescape.api.stats.IStat;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,6 +15,7 @@ import net.minecraftforge.common.MinecraftForge;
  */
 public abstract class BasicSkill implements ISkill {
     protected int currentXP;
+    protected IStat stat;
 
     //The calculation for these numbers = Math.floor((getLevel() + 300 * (2 ^ (getLevel() / 7)))/4).
     //Had no idea how to implement it though, so I just hardcoded the numbers into the existing array.
@@ -69,7 +72,7 @@ public abstract class BasicSkill implements ISkill {
             }
         }
 
-        return 99;
+        return getMaxLevel();
     }
 
     @Override
@@ -106,6 +109,12 @@ public abstract class BasicSkill implements ISkill {
     @Override
     public int getMaxLevel() {
         return 99;
+    }
+    
+    @Override
+    public int getStat() {
+    	
+    	return stat.getCurrentStat();
     }
 
     @Override

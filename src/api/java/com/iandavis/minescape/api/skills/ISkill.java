@@ -46,7 +46,8 @@ public interface ISkill {
     
     int getMaxLevel();
 
-
+    int getStat();
+    
     void setLevel(int newLevel);
 
 
