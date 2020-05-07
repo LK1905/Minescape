@@ -2,15 +2,17 @@ package com.iandavis.minescape.api.stats;
 
 public interface IStat {
 
-	int getBaseStat();
+	void setBaseStat(int stat);
 	
-	int getMinStat();
+	int getBaseStat();
 	
 	int getMaxStat();
 	
 	int getCurrentStat();
 	
-	void setStat(int stat);
+	void setCurrentStat(int stat);
 	
 	int getBoost();
+	
+	int statUpdate();
 }

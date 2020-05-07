@@ -1,45 +1,37 @@
 package com.iandavis.minescape.api.stats;
 
-import com.iandavis.minescape.api.skills.ISkill;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 
 public abstract class Stat implements IStat{
 
-	protected Entity entity;
-	protected EntityPlayer player;
-	protected ISkill skill;
-	
+	protected EntityLivingBase entity;
 	protected int timer = 0;
+	protected int stat;
 	
-	public Stat(Entity entity, EntityPlayer player, ISkill skill) {
+	public Stat(EntityLivingBase entity) {
 		
 		this.entity = entity;
-		this.player = player;
-		this.skill = skill;
+		this.stat = 1;
+	}
+	
+	@Override
+	public void setBaseStat(int stat) {
+		this.stat = stat;
 	}
 	
 	@Override
 	public int getBaseStat() {
 		
-		if(entity == player) {
-			return skill.getLevel();
-		}
-		
-		return 0;
-	};
-	
-	@Override
-	public int getMinStat() {
-		return 0;
+		return stat;
 	};
 	
 	@Override
 	public int getMaxStat() {
+		
 		return getBaseStat() + getBoost();
-	};
+	}
 	
 	@Override
 	public int getCurrentStat() {
@@ -47,21 +39,26 @@ public abstract class Stat implements IStat{
 		if(getCurrentStat() >= getMaxStat()) {
 			
 			return getMaxStat();
+			
+		}else if(getCurrentStat() <= 0) {
+			
+			return 0;
 		}
 		
 		return statUpdate();
-	};
+	}
 	
 	@Override
-	public void setStat(int stat) {
+	public void setCurrentStat(int stat) {
 		stat = getCurrentStat();
-	};
+	}
 	
 	@Override
 	public int getBoost() {
 		return 0;
 	}
 	
+	@Override
 	public int statUpdate() {
 		
 		for(int currentStat = getCurrentStat(); currentStat > getBaseStat(); currentStat--) {

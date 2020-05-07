@@ -45,8 +45,6 @@ public interface ISkill {
     int getMaxXP();
     
     int getMaxLevel();
-
-    int getStat();
     
     void setLevel(int newLevel);
 
@@ -96,4 +94,11 @@ public interface ISkill {
     SkillIcon getSkillIcon();
 
     SkillCapeBauble getSkillCape();
+    
+    //Stats
+	
+	int getCurrentStat();
+	
+	void setCurrentStat(int stat);
+	
 }

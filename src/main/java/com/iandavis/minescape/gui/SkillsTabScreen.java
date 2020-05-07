@@ -141,13 +141,13 @@ public class SkillsTabScreen extends GuiScreen {
         drawSkillIcon(skillIcon, iconPosition);
 
         mc.fontRenderer.drawString(
-                String.valueOf(skill.getLevel()),
+                String.valueOf(skill.getCurrentStat()),
                 levelPosition.getX(),
                 levelPosition.getY(),
                 color.getIntValue(),
                 true);
         mc.fontRenderer.drawString(
-                "99",
+        		String.valueOf(skill.getLevel()),
                 levelPosition.getX() + 20,
                 levelPosition.getY(),
                 color.getIntValue(),

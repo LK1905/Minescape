@@ -2,12 +2,12 @@ package com.iandavis.minescape.api.skills;
 
 import com.iandavis.minescape.api.events.LevelUpEvent;
 import com.iandavis.minescape.api.events.XPGainEvent;
-import com.iandavis.minescape.api.stats.IStat;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 
 /**
  * Simple Implementation of the ISkill interface which provides all the basic functionality required.
@@ -15,7 +15,6 @@ import net.minecraftforge.common.MinecraftForge;
  */
 public abstract class BasicSkill implements ISkill {
     protected int currentXP;
-    protected IStat stat;
 
     //The calculation for these numbers = Math.floor((getLevel() + 300 * (2 ^ (getLevel() / 7)))/4).
     //Had no idea how to implement it though, so I just hardcoded the numbers into the existing array.
@@ -112,12 +111,6 @@ public abstract class BasicSkill implements ISkill {
     }
     
     @Override
-    public int getStat() {
-    	
-    	return stat.getCurrentStat();
-    }
-
-    @Override
     public void setLevel(int newLevel) {
         currentXP = xpLevels[newLevel - 1];
     }
@@ -147,4 +140,65 @@ public abstract class BasicSkill implements ISkill {
     public static int[] getXpLevels() {
         return xpLevels;
     }
+    
+    //Stats
+    
+    protected int timer = 0;
+    
+    public int modifier = 0;
+    
+    protected int stat = getLevel() + modifier;
+    
+    protected int maxStat = getLevel() + modifier;
+    
+	@Override
+	public int getCurrentStat() {
+
+		for(int currentStat = stat; currentStat > getLevel(); currentStat--) {
+			
+			if(timer == 1200) {
+				
+				return currentStat;
+			}
+		}
+		
+		for(int currentStat = stat; currentStat < getLevel(); currentStat++) {
+			
+			if(timer == 1200) {
+				
+				return currentStat;
+			}
+		}
+		
+		return getLevel();
+	}
+	
+	@Override
+	public void setCurrentStat(int stat) {
+		
+		if(this.stat > maxStat) {
+			
+			stat = maxStat;
+			
+		}else if(this.stat < 0) {
+			
+			stat = 0;
+		}
+		
+		stat = this.stat;
+	}
+	
+	
+	@SubscribeEvent
+	public void onPlayerTick(ClientTickEvent event) {
+		
+		if(timer < 1200) {
+			
+			timer++;
+			
+		}else {
+			
+			timer = 0;
+		}
+	}
 }
